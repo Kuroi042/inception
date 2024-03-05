@@ -14,4 +14,13 @@ Docker is available on your Os preferably on Linux (our case subject).
 ###  a container is an standart unit of software  that packages up code and all its dependencies so the app runs easly and quickly  from an anviromenet to another.
 
 ### Containerization
- Package application as `images` that contain everything needed to run them `code ,runtime env, libs, cfgs`
+ Package application as `images` that contain everything needed to run them `code ,runtime env, libs, cfgs, dependencies`
+ 
+#### Docker image is lighweight standalone executable package of software that include everything needed to run an app"
+
+
+#Vertualisation Vs Contaibazazajnzation
+ ![image](https://github.com/Kuroi042/inception/assets/26288711/a09b405a-f3ed-4f5d-a52f-50c1f63975e7)
+   # Containerized App                        vs           Virtualisation
+
+### as we see Docker is portable  requieres only the the files we need to run the the docker image
