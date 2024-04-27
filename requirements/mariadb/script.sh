@@ -1,39 +1,24 @@
-#!/bin/bash
-
+#!/bin/sh
 set -x
 
-# Check if MySQL service is already running
-if ! service mysql status > /dev/null; then
-    # MySQL service is not running, start it
-    service mysql start
+# Ensure /run/mysqld directory exists
+if [ ! -d "/run/mysqld" ]; then
+    mkdir /run/mysqld
 fi
 
-# Set MySQL root password
-MYSQL_ROOT_PASSWORD="123"
-
-# Define MySQL commands
-SQL_COMMANDS=$(cat <<EOF
+# Generate SQL script
+cat << EOF > /tmp/wp.sql
+FLUSH PRIVILEGES;
 CREATE DATABASE IF NOT EXISTS charaf;
-CREATE USER 'user'@'%' IDENTIFIED BY 'root';
+CREATE USER IF NOT EXISTS 'user'@'%' IDENTIFIED BY 'root';
 GRANT ALL PRIVILEGES ON charaf.* TO 'user'@'%';
 FLUSH PRIVILEGES;
 EOF
-)
 
-# Execute MySQL commands using the provided root password
-echo "$SQL_COMMANDS" | mysql 
+# Execute SQL script in bootstrap mode
+mysqld --user=root --bootstrap < /tmp/wp.sql
 
-# Check if MySQL command execution was successful
-if [ $? -eq 0 ]; then
-    echo "MySQL commands executed successfully."
-else
-    echo "Error: MySQL commands execution failed."
-fi
+echo "zaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaab"
 
-echo "------------------> Script execution completed."
-
-# Stop MySQL service
-service mysql stop
-
-# Execute other commands if provided
+# Execute additional commands
 exec "$@"
