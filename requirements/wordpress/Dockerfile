@@ -1,10 +1,4 @@
 FROM debian:buster
-
-ENV DB_NAME=charafdb
-ENV DB_USER=kuroi
-ENV DB_PASSWORD=123
-ENV DB_HOST=mariadb
-
 RUN apt-get -y update && apt-get -y upgrade
 RUN apt-get install -y nano
 RUN apt-get install -y apt-utils
@@ -20,7 +14,7 @@ RUN      chown -R root:root /var/www/wordpress
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && mv /wp-cli.phar /bin/wp && chmod +x /bin/wp
 COPY www.conf /etc/php/7.3/fpm/pool.d/
 RUN chmod 777 /etc/php/7.3/fpm/pool.d/www.conf
-RUN mv /var/www/wordpress/wp-config-sample.php /var/www/wordpress/wp-config.php
+# RUN mv /var/www/wordpress/wp-config-sample.php /var/www/wordpress/wp-config.php
 COPY script.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/script.sh
 # RUN ./usr/local/bin/script.sh

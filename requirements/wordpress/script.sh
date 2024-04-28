@@ -3,23 +3,19 @@
 # Correct path to wp-config.php
 WP_CONFIG="/var/www/wordpress/wp-config.php"
 
-# Check if wp-config.php exists
+# Check if wp-config.php exists and delete it if found
 if [ -f "$WP_CONFIG" ]; then
-  rm $WP_CONFIG
+  echo "Deleting existing wp-config.php file..."
+  rm "$WP_CONFIG"
 fi
+echo "---------------------------->nebdaw lkhedma "
 
-DB_NAME=$DB_NAME
-DB_USER=$DB_USER
-DB_PASSWORD=$DB_PASSWORD
-DB_HOST=$DB_HOST
 
-echo "DB_NAME: $DB_NAME"
-echo "DB_USER: $DB_USER"
-echo "DB_PASSWORD: $DB_PASSWORD"
-echo "DB_HOST: $DB_HOST"
 
-wp --allow-root config create --dbname=charaf --dbuser=user --dbpass=root --dbhost=mariadb:3306
 
+wp --allow-root config create --dbname="$MADB_NAME" --dbuser="$MADB_USER" --dbpass="$MADB_PASSWORD" --dbhost="$MADB_HOST"
+wp --allow-root core install --url="$DOMAIN_NAME"/ --title="$WP_TITLE" --admin_user="$WP_ADMIN_USER" --admin_password="$WP_ADMIN_PASS" --admin_email="$WP_ADMIN_EMAIL"
+chmod -R 755 wp-content/uploads
 echo "Database credentials updated with values from environment variables."
 
 exec "$@"
