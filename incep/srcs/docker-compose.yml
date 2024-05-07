@@ -1,0 +1,77 @@
+version: '3'
+
+services:
+  mariadb:
+    container_name: mariadb
+    build:
+      context: ./requirements/mariadb
+      dockerfile: Dockerfile
+    volumes:
+      - mariadb:/var/lib/mysql
+    env_file:
+      - .env
+    secrets:
+      - maria_password
+    ports:
+      - "3306:3306"
+    networks:
+      - mynet
+    restart: always
+    
+  wordpress:
+    container_name: wordpress
+    build:
+      context: ./requirements/wordpress
+      dockerfile: Dockerfile
+    volumes:
+      - wordpress:/var/www/wordpress
+    env_file:
+      - .env
+    secrets:
+      - wp_user_pass
+      - maria_password
+    ports:
+      - "9000:9000"
+    networks:
+      - mynet
+    depends_on:
+      - mariadb
+    restart: always
+
+  nginx:
+    container_name: nginx
+    build:
+      context: ./requirements/nginx2
+      dockerfile: Dockerfile
+    env_file:
+      - .env  
+    ports:
+      - "443:443"
+    volumes:
+      - wordpress:/var/www/wordpress
+    depends_on:
+      - wordpress
+    restart: always
+    networks:
+      - mynet 
+volumes:
+  wordpress: 
+    driver: local
+    driver_opts:
+      type: none
+      o: 'bind'
+      device: /home/mbouderr/data/wordpress
+  mariadb:
+    driver: local
+    driver_opts:
+      type: none
+      o: 'bind'
+      device: /home/mbouderr/data/mariadb
+secrets:
+   wp_user_pass:
+    file: ../secrets/wp_user_pass.txt
+   maria_password:
+    file: ../secrets/maria_password.txt
+networks:
+  mynet:
+    driver: bridge
