@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Ensure /run/mysqld directory exists
+# check for /run/mysqld  is created 
 if [ ! -d "/run/mysqld" ]; then
     mkdir /run/mysqld
 fi
@@ -16,10 +16,5 @@ FLUSH PRIVILEGES;
 ALTER USER 'root'@'localhost' IDENTIFIED BY '${MADB_ROOT_PASSWORD}';
 EOF
 
-# Execute SQL script in bootstrap mode
 mysqld --user=root --bootstrap < /tmp/wp.sql
-
-echo "zaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaab"
-
-# Execute additional commands
 exec "$@"

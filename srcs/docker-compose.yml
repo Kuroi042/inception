@@ -6,6 +6,7 @@ services:
     build:
       context: ./requirements/mariadb
       dockerfile: Dockerfile
+    image: mariadb:inception42
     volumes:
       - mariadb:/var/lib/mysql
     env_file:
@@ -13,7 +14,7 @@ services:
     secrets:
       - maria_password
     ports:
-      - "3306:3306"
+      - "3306"
     networks:
       - mynet
     restart: always
@@ -23,6 +24,7 @@ services:
     build:
       context: ./requirements/wordpress
       dockerfile: Dockerfile
+    image: wordpress:inception42
     volumes:
       - wordpress:/var/www/wordpress
     env_file:
@@ -31,7 +33,7 @@ services:
       - wp_user_pass
       - maria_password
     ports:
-      - "9000:9000"
+      - "9000"
     networks:
       - mynet
     depends_on:
@@ -41,8 +43,9 @@ services:
   nginx:
     container_name: nginx
     build:
-      context: ./requirements/nginx2
+      context: ./requirements/nginx
       dockerfile: Dockerfile
+    image: nginx:inception42
     env_file:
       - .env  
     ports:
