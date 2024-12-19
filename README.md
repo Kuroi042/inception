@@ -1,6 +1,6 @@
 
 
-  creat secret
+  	''creat secret
 	@touch ./secrets/maria_password.txt
 	@touch ./secrets/wp_user_pass.txt
 	@echo "MADB_PASSWORD=root" > ./secrets/maria_password.txt
@@ -8,7 +8,7 @@
 	@echo "WP_ADMIN_PASS=changeitlater" > ./secrets/wp_user_pass.txt
 	@echo "WP_USERPWD=changeitlater" >> ./secrets/wp_user_pass.txt
   
-  Create environment file
+  	''Create environment file
 	echo "DOMAIN_NAME=mbouderr.42.fr" > ./srcs/.env
 	echo "MADB_NAME=inceptiondb" >> ./srcs/.env
 	echo "MADB_HOST=mariadb:3306" >> ./srcs/.env
